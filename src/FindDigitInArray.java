@@ -13,16 +13,22 @@ public class FindDigitInArray {
         int[] k = {8, 7, 22, 0, 23, -1};
         int[] empty = {};
 
-        System.out.println("Array - " + Arrays.toString(n));
+        System.out.println("Array - " + Arrays.toString(n) + "\nLeft Binary Search");
         for (int i = 0; i < k.length; i++) {
             System.out.println("\tDigit [" + k[i] + "] in array? - "
-                    + binarySearchLeft(n, k[i]));
+                    + " index [" + binarySearchLeft(n, k[i]) + "]");
+        }
+
+        System.out.println("Array - " + Arrays.toString(n) + "\nRight Binary Search");
+        for (int i = 0; i < k.length; i++) {
+            System.out.println("\tDigit [" + k[i] + "] in array? - "
+                    + " index [" + binarySearchRight(n, k[i]) + "]");
         }
     }
 
-    private static boolean binarySearchLeft(int[] array, int target) {
+    private static int binarySearchLeft(int[] array, int target) {
         if (array == null || array.length < 1) {
-            return false;
+            return -1;
         }
 
         int min = 0;
@@ -30,7 +36,7 @@ public class FindDigitInArray {
         int cursor, targetIndex = -1;
 
         while (min <= max) {
-            cursor = min + (max - min) / 2;
+            cursor = (1 + min + max) / 2;
             if (array[cursor] >= target) {
                 targetIndex = cursor;
                 max = cursor - 1;
@@ -38,6 +44,25 @@ public class FindDigitInArray {
                 min = cursor + 1;
             }
         }
-        return targetIndex != -1 && array[targetIndex] == target;
+        return targetIndex >= 0 && array[targetIndex] == target ? targetIndex : -1;
+    }
+
+    private static int binarySearchRight(int[] array, int target) {
+        if (array == null || array.length < 1) {
+            return -1;
+        }
+        int min = 0, max = array.length - 1;
+        int cursor, targetIndex = -1;
+        while (min <= max) {
+            cursor = (1 + min + max) / 2;
+            if (array[cursor] <= target) {
+                targetIndex = cursor;
+                min = cursor + 1;
+            } else {
+                max = cursor - 1;
+            }
+        }
+
+        return targetIndex >= 0 && array[targetIndex] == target ? targetIndex : -1;
     }
 }
